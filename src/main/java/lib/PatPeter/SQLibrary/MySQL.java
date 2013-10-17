@@ -65,6 +65,7 @@ public class MySQL extends Database {
 			this.string = string;
 		}
 		
+        @Override
 		public String toString() {
 			return string;
 		}
@@ -242,7 +243,7 @@ public class MySQL extends Database {
 	@Deprecated
 	public boolean createTable(String query) {
 		Statement statement = null;
-		if (query == null || query.equals("")) {
+		if (query == null || query.isEmpty()) {
 			this.writeError("Could not create table: query is empty or null.", true);
 			return false;
 		}

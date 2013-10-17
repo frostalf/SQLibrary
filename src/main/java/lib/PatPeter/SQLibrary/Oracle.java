@@ -47,6 +47,7 @@ public class Oracle extends Database {
 			this.string = string;
 		}
 		
+        @Override
 		public String toString() {
 			return string;
 		}
@@ -175,6 +176,7 @@ public class Oracle extends Database {
 		}
 	}
 	
+    @Override
 	protected void queryValidation(StatementEnum statement) throws SQLException {}
 
 	@Override

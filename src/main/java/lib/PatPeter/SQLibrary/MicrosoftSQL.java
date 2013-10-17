@@ -396,6 +396,7 @@ public class MicrosoftSQL extends Database {
 			this.value = value;
 		}
 		
+        @Override
 		public String toString() {
 			return this.value;
 		}
@@ -523,6 +524,7 @@ public class MicrosoftSQL extends Database {
 		}
 	}
 	
+    @Override
 	protected void queryValidation(StatementEnum statement) throws SQLException {}
 
 	@Override
@@ -542,10 +544,12 @@ public class MicrosoftSQL extends Database {
 		    Statement statement = connection.createStatement();
 		    ResultSet result = statement.executeQuery("SELECT TOP 10 * FROM " + table);
 
-		    if (result != null)
-		    	return true;
-		    else
-		    	return false;
+		    if (result != null) {
+                return true;
+            }
+		    else {
+                return false;
+            }
 		} catch (SQLException e) {
 			this.writeError("Could not check if table \"" + table + "\" exists, SQLException: " + e.getMessage(), true);
 			return false;

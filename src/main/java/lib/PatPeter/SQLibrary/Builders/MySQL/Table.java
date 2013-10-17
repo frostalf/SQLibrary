@@ -22,6 +22,7 @@ public class Table implements Builder {
 		this.name = name;
 	}
 	
+    @Override
 	public String toString() {
 		return "CREATE " + (temporary ? "TEMPORARY " : "") + "TABLE " + 
 				(exists ? "IF NOT EXISTS " : "") + name;

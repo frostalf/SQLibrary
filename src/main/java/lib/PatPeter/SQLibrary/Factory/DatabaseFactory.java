@@ -16,10 +16,11 @@ import lib.PatPeter.SQLibrary.Delegates.HostnameDatabaseImpl;
  */
 public class DatabaseFactory {
 	public static Database createDatabase(DatabaseConfig config) throws InvalidConfigurationException {
-		if (!config.isValid())
-			throw new InvalidConfigurationException(
-				"The configuration is invalid, you don't have enought parameters for that DB : "
-					+ config.getType());
+		if (!config.isValid()) {
+            throw new InvalidConfigurationException(
+                "The configuration is invalid, you don't have enought parameters for that DB : "
+                    + config.getType());
+        }
 		switch (config.getType()) {
 			case MySQL:
 				return new MySQL(config.getLog(), config.getParameter(Parameter.PREFIX),

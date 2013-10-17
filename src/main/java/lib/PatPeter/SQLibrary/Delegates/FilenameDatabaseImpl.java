@@ -25,10 +25,12 @@ public class FilenameDatabaseImpl implements FilenameDatabase {
 	
 	@Override
 	public void setDirectory(String directory) {
-		if (directory == null || directory.length() == 0)
-			throw new DatabaseException("Directory cannot be null or empty.");
-		else
-			this.directory = directory;
+		if (directory == null || directory.length() == 0) {
+            throw new DatabaseException("Directory cannot be null or empty.");
+        }
+		else {
+            this.directory = directory;
+        }
 	}
 	
 	@Override
@@ -38,12 +40,15 @@ public class FilenameDatabaseImpl implements FilenameDatabase {
 	
 	@Override
 	public void setFilename(String filename) {
-		if (filename == null || filename.length() == 0)
-			throw new DatabaseException("Filename cannot be null or empty.");
-		else if (filename.contains("/") || filename.contains("\\") || filename.endsWith(".db"))
-			throw new DatabaseException("The database filename cannot contain: /, \\, or .db.");
-		else
-			this.filename = filename;
+		if (filename == null || filename.length() == 0) {
+            throw new DatabaseException("Filename cannot be null or empty.");
+        }
+		else if (filename.contains("/") || filename.contains("\\") || filename.endsWith(".db")) {
+            throw new DatabaseException("The database filename cannot contain: /, \\, or .db.");
+        }
+		else {
+            this.filename = filename;
+        }
 	}
 	
 	@Override
@@ -53,10 +58,12 @@ public class FilenameDatabaseImpl implements FilenameDatabase {
 	
 	@Override
 	public void setExtension(String extension) {
-		if (extension == null || extension.length() == 0)
-			throw new DatabaseException("Extension cannot be null or empty.");
-		if (extension.charAt(0) != '.')
-			throw new DatabaseException("Extension must begin with a period");
+		if (extension == null || extension.length() == 0) {
+            throw new DatabaseException("Extension cannot be null or empty.");
+        }
+		if (extension.charAt(0) != '.') {
+            throw new DatabaseException("Extension must begin with a period");
+        }
 	}
 	
 	@Override
@@ -75,8 +82,9 @@ public class FilenameDatabaseImpl implements FilenameDatabase {
 		setFilename(filename);
 		
 		File folder = new File(getDirectory());
-		if (!folder.exists())
-			folder.mkdir();
+		if (!folder.exists()) {
+            folder.mkdir();
+        }
 		
 		file = new File(folder.getAbsolutePath() + File.separator + getFilename() + getExtension());
 	}

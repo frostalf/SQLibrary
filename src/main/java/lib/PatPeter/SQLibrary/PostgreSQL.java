@@ -65,6 +65,7 @@ public class PostgreSQL extends Database {
 			this.string = string;
 		}
 		
+        @Override
 		public String toString() {
 			return string;
 		}

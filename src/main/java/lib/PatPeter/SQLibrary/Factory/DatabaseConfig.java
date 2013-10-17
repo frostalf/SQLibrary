@@ -13,7 +13,7 @@ import lib.PatPeter.SQLibrary.DBMS;
  * @author Balor (aka Antoine Aflalo)
  */
 public class DatabaseConfig {
-	private final Map<Parameter, String> config = new EnumMap<Parameter, String>(Parameter.class);
+	private final Map<Parameter, String> config = new EnumMap<>(Parameter.class);
 	private DBMS type;
 	private Logger log;
 	
@@ -37,8 +37,9 @@ public class DatabaseConfig {
 	 * @param type the type to set
 	 */
 	public DatabaseConfig setType(DBMS type) throws IllegalArgumentException {
-		if (type == DBMS.Other)
-			throw new IllegalArgumentException("You can't set your database type to Other");
+		if (type == DBMS.Other) {
+            throw new IllegalArgumentException("You can't set your database type to Other");
+        }
 		this.type = type;
 		return this;
 	}
@@ -52,10 +53,12 @@ public class DatabaseConfig {
 	}
 
 	public DatabaseConfig setParameter(Parameter param, String value) throws NullPointerException, InvalidConfigurationException {
-		if (this.type == null)
-			throw new NullPointerException("You must set the type of the database first");
-		if (!param.validParam(type))
-			throw new InvalidConfigurationException(param.toString() + " is invalid for a database type of : " + type.toString());
+		if (this.type == null) {
+            throw new NullPointerException("You must set the type of the database first");
+        }
+		if (!param.validParam(type)) {
+            throw new InvalidConfigurationException(param.toString() + " is invalid for a database type of : " + type.toString());
+        }
 		config.put(param, value);
 		return this;
 
@@ -66,8 +69,9 @@ public class DatabaseConfig {
 	}
 
 	public boolean isValid() throws InvalidConfigurationException {
-		if (log == null)
-			throw new InvalidConfigurationException("You need to set the logger.");
+		if (log == null) {
+            throw new InvalidConfigurationException("You need to set the logger.");
+        }
 		return config.size() == Parameter.getCount(type);
 	}
 }

@@ -58,6 +58,7 @@ public class H2 extends Database {
 			this.string = string;
 		}
 		
+        @Override
 		public String toString() {
 			return string;
 		}

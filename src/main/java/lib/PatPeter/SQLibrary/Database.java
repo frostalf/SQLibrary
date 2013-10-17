@@ -44,7 +44,7 @@ public abstract class Database {
 	/**
 	 * Statement registration for PreparedStatement query validation.
 	 */
-	protected Map<PreparedStatement, StatementEnum> preparedStatements = new HashMap<PreparedStatement, StatementEnum>();
+	protected Map<PreparedStatement, StatementEnum> preparedStatements = new HashMap<>();
 	/**
 	 * Holder for the last update count by a query.
 	 */
@@ -58,10 +58,12 @@ public abstract class Database {
 	 * @param dp the prefix of the database.
 	 */
 	public Database(Logger log, String prefix, String dp) throws DatabaseException {
-		if (log == null)
-			throw new DatabaseException("Logger cannot be null.");
-		if (prefix == null || prefix.length() == 0)
-			throw new DatabaseException("Plugin prefix cannot be null or empty.");
+		if (log == null) {
+            throw new DatabaseException("Logger cannot be null.");
+        }
+		if (prefix == null || prefix.length() == 0) {
+            throw new DatabaseException("Plugin prefix cannot be null or empty.");
+        }
 		
 		this.log = log;
 		this.PREFIX = prefix;
@@ -180,20 +182,24 @@ public abstract class Database {
 	 * @return the status of the connection, true for up, false for down.
 	 */
 	public final boolean isOpen() {
-		if (connection != null)
-			try {
-				if (connection.isValid(1))
-					return true;
-			} catch (SQLException e) {}
+		if (connection != null) {
+            try {
+                if (connection.isValid(1)) {
+                    return true;
+                }
+            }catch (SQLException e) {}
+        }
 		return false;
 	}
 	
 	public final boolean isOpen(int seconds) {
-		if (connection != null)
-			try {
-				if (connection.isValid(seconds))
-					return true;
-			} catch (SQLException e) {}
+		if (connection != null) {
+            try {
+                if (connection.isValid(seconds)) {
+                    return true;
+                }
+            }catch (SQLException e) {}
+        }
 		return false;
 	}
 	
@@ -294,14 +300,15 @@ public abstract class Database {
 	 * @throws SQLException if the preparation or execution of the query failed.
 	 */
 	public ArrayList<Long> insert(String query) throws SQLException {
-		ArrayList<Long> keys = new ArrayList<Long>();
+		ArrayList<Long> keys = new ArrayList<>();
 		
 		PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		lastUpdate = ps.executeUpdate();
 		
 		ResultSet key = ps.getGeneratedKeys();
-		if (key.next())
-			keys.add(key.getLong(1));
+		if (key.next()) {
+            keys.add(key.getLong(1));
+        }
 		return keys;
 	}
 	
@@ -309,10 +316,11 @@ public abstract class Database {
 		lastUpdate = ps.executeUpdate();
 		preparedStatements.remove(ps);
 		
-		ArrayList<Long> keys = new ArrayList<Long>();
+		ArrayList<Long> keys = new ArrayList<>();
 		ResultSet key = ps.getGeneratedKeys();
-		if (key.next())
-			keys.add(key.getLong(1));
+		if (key.next()) {
+            keys.add(key.getLong(1));
+        }
 		return keys;
 	}
 	

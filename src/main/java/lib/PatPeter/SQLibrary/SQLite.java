@@ -98,6 +98,7 @@ public class SQLite extends Database {
 			this.string = string;
 		}
 		
+        @Override
 		public String toString() {
 			return string;
 		}
@@ -131,6 +132,7 @@ public class SQLite extends Database {
 		return delegate.getFile();
 	}
 	
+    @Override
 	protected boolean initialize() {
 		try {
 		  Class.forName("org.sqlite.JDBC");
@@ -174,7 +176,7 @@ public class SQLite extends Database {
 	public boolean createTable(String query) {
 		Statement statement = null;
 		try {
-			if (query == null || query.equals("")) {
+			if (query == null || query.isEmpty()) {
 				this.writeError("Could not create table: query is empty or null.", true);
 				return false;
 			}
@@ -224,8 +226,9 @@ public class SQLite extends Database {
 			return true;
 		} catch (SQLException e) {
 			if (!(e.getMessage().toLowerCase().contains("locking") || e.getMessage().toLowerCase().contains("locked")) &&
-				!e.toString().contains("not return ResultSet"))
-					this.writeError("Error in wipeTable() query: " + e, false);
+				!e.toString().contains("not return ResultSet")) {
+                this.writeError("Error in wipeTable() query: " + e, false);
+            }
 			return false;
 		}
 	}

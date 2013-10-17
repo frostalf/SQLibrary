@@ -29,13 +29,15 @@ public class Select implements Builder {
 			this.id = id;
 		}
 		
+        @Override
 		public String toString() {
 			return this.strings[id];
 		}
 		
 		public static Duplicates byID(int id) throws BuilderException {
-			if (id < 0 || 2 < id)
-				throw new BuilderException("Duplicates must be between 0 and 2.");
+			if (id < 0 || 2 < id) {
+                throw new BuilderException("Duplicates must be between 0 and 2.");
+            }
 			return Duplicates.values()[id];
 		}
 	}
@@ -53,8 +55,8 @@ public class Select implements Builder {
 	
 	private String[] conditionals = {"OR", "||", "XOR", "AND", "&&"};
 	
-	private HashSet<String> columns = new HashSet<String>();
-	private HashSet<String> tables = new HashSet<String>();
+	private HashSet<String> columns = new HashSet<>();
+	private HashSet<String> tables = new HashSet<>();
 	
 	public Duplicates duplicates = null;
 	public Cache cache = null;
@@ -68,10 +70,10 @@ public class Select implements Builder {
 	
 	private boolean calc = false;
 	
-	private ArrayList<String> where = new ArrayList<String>();
-	private ArrayList<String> groupBy = new ArrayList<String>();
-	private ArrayList<String> having = new ArrayList<String>();
-	private ArrayList<String> orderBy = new ArrayList<String>();
+	private ArrayList<String> where = new ArrayList<>();
+	private ArrayList<String> groupBy = new ArrayList<>();
+	private ArrayList<String> having = new ArrayList<>();
+	private ArrayList<String> orderBy = new ArrayList<>();
 	
 	private int[] limit = null;
 	
@@ -81,7 +83,7 @@ public class Select implements Builder {
 	private String file = "";
 	private String charset = "";
 	private String options = "";
-	private HashSet<String> variables = new HashSet<String>();
+	private HashSet<String> variables = new HashSet<>();
 	
 	private Boolean update = null;
 	
@@ -100,14 +102,15 @@ public class Select implements Builder {
 	}
 	
 	private void setDatabase(Database db) throws DatabaseException {
-		if (db == null)
-			throw new DatabaseException("Database cannot be null in SELECT statement.");
+		if (db == null) {
+            throw new DatabaseException("Database cannot be null in SELECT statement.");
+        }
 		
 		this.db = db;
 	}
 	
 	public ArrayList<String> getColumns() {
-		return new ArrayList<String>(columns);
+		return new ArrayList<>(columns);
 	}
 	
 	public Select columns(String... columns) {
@@ -130,7 +133,7 @@ public class Select implements Builder {
 	}
 	
 	public ArrayList<String> getTables() {
-		return new ArrayList<String>(tables);
+		return new ArrayList<>(tables);
 	}
 	
 	public Select tables(String... tables) {
@@ -193,10 +196,12 @@ public class Select implements Builder {
 			return this;
 		}
 		
-		if (cache)
-			this.cache = Cache.SQL_CACHE;
-		else if (!cache)
-			this.cache = Cache.SQL_NO_CACHE;
+		if (cache) {
+            this.cache = Cache.SQL_CACHE;
+        }
+		else if (!cache) {
+            this.cache = Cache.SQL_NO_CACHE;
+        }
 		return this;
 	}
 	
@@ -206,40 +211,46 @@ public class Select implements Builder {
 	}
 	
 	public Select where(String condition) {
-		if (!checkCondition(condition))
-			return this;
+		if (!checkCondition(condition)) {
+            return this;
+        }
 		
 		where.add(condition);
 		return this;
 	}
 	
 	public Select where(String conditional, String condition) {
-		if (where.size() != 0) {
-			if (!checkConditional(conditional))
-				return this;
+		if (!where.isEmpty()) {
+			if (!checkConditional(conditional)) {
+                return this;
+            }
 		} else {
 			db.writeError("Cannot add conditional " + conditional + " to the front of a WHERE statement.", false);
 		}
-		if (!checkCondition(condition))
-			return this;
+		if (!checkCondition(condition)) {
+            return this;
+        }
 		
-		if (where.size() != 0)
-			where.add(conditional);
+		if (!where.isEmpty()) {
+            where.add(conditional);
+        }
 		where.add(condition);
 		return this;
 	}
 	
 	public Select groupBy(String expression) {
-		if (!validString(expression, "Skipping null or empty GROUP BY expression."))
-			return this;
+		if (!validString(expression, "Skipping null or empty GROUP BY expression.")) {
+            return this;
+        }
 		
 		groupBy.add(expression);
 		return this;
 	}
 	
 	public Select groupBy(String expression, boolean ascending) {
-		if (!validString(expression, "Skipping null or empty GROUP BY expression."))
-			return this;
+		if (!validString(expression, "Skipping null or empty GROUP BY expression.")) {
+            return this;
+        }
 		
 		groupBy.add(expression);
 		groupBy.add(ascending ? "ASC" : "DESC");
@@ -247,40 +258,46 @@ public class Select implements Builder {
 	}
 	
 	public Select having(String condition) {
-		if (!checkCondition(condition))
-			return this;
+		if (!checkCondition(condition)) {
+            return this;
+        }
 		
 		having.add(condition);
 		return this;
 	}
 	
 	public Select having(String conditional, String condition) {
-		if (having.size() != 0) {
-			if (!checkConditional(conditional))
-				return this;
+		if (!having.isEmpty()) {
+			if (!checkConditional(conditional)) {
+                return this;
+            }
 		} else {
 			db.writeError("Cannot add conditional " + conditional + " to the front of a HAVING statement.", false);
 		}
-		if (!checkCondition(condition))
-			return this;
+		if (!checkCondition(condition)) {
+            return this;
+        }
 		
-		if (having.size() != 0)
-			having.add(conditional);
+		if (!having.isEmpty()) {
+            having.add(conditional);
+        }
 		having.add(condition);
 		return this;
 	}
 	
 	public Select orderBy(String expression) {
-		if (!validString(expression, "Skipping null or empty ORDER BY expression."))
-			return this;
+		if (!validString(expression, "Skipping null or empty ORDER BY expression.")) {
+            return this;
+        }
 		
 		orderBy.add(expression);
 		return this;
 	}
 	
 	public Select orderBy(String expression, boolean ascending) {
-		if (!validString(expression, "Skipping null or empty ORDER BY expression."))
-			return this;
+		if (!validString(expression, "Skipping null or empty ORDER BY expression.")) {
+            return this;
+        }
 		
 		orderBy.add(expression);
 		orderBy.add(ascending ? "ASC" : "DESC");
@@ -307,8 +324,9 @@ public class Select implements Builder {
 	}
 	
 	public Select procedure(String procedure) {
-		if (!validString(procedure, "Skipped null or empty procedure."))
-			return this;
+		if (!validString(procedure, "Skipped null or empty procedure.")) {
+            return this;
+        }
 		
 		this.procedure = procedure;
 		return this;
@@ -319,7 +337,7 @@ public class Select implements Builder {
 		file = filename;
 		this.charset = "";
 		this.options = "";
-		variables = new HashSet<String>();
+		variables = new HashSet<>();
 		return this;
 	}
 	
@@ -328,7 +346,7 @@ public class Select implements Builder {
 		file = filename;
 		this.charset = "";
 		this.options = options;
-		variables = new HashSet<String>();
+		variables = new HashSet<>();
 		return this;
 	}
 	
@@ -337,14 +355,14 @@ public class Select implements Builder {
 		file = filename;
 		this.charset = charset;
 		this.options = options;
-		variables = new HashSet<String>();
+		variables = new HashSet<>();
 		return this;
 	}
 	
 	public Select dumpfile(String filename) {
 		into = Into.DUMP;
 		file = filename;
-		variables = new HashSet<String>();
+		variables = new HashSet<>();
 		return this;
 	}
 	
@@ -404,9 +422,11 @@ public class Select implements Builder {
 		}
 	}*/
 	
+    @Override
 	public String toString() {
-		if (columns.isEmpty())
-			throw new BuilderException("Cannot build SELECT statement");
+		if (columns.isEmpty()) {
+            throw new BuilderException("Cannot build SELECT statement");
+        }
 		
 		String string = "SELECT " + (duplicates != null ? duplicates + " " : "");
 		string += (high ? "HIGH_PRIORITY " : "");
@@ -424,8 +444,9 @@ public class Select implements Builder {
 			
 			if (!where.isEmpty()) {
 				string += "WHERE ";
-				for (String w : where)
-					string += w + " ";
+				for (String w : where) {
+                    string += w + " ";
+                }
 			}
 			
 			if (!groupBy.isEmpty()) {
@@ -435,8 +456,9 @@ public class Select implements Builder {
 			
 			if (!having.isEmpty()) {
 				string += "HAVING ";
-				for (String h : having)
-					string += h + " ";
+				for (String h : having) {
+                    string += h + " ";
+                }
 			}
 			
 			if (!orderBy.isEmpty()) {
@@ -444,17 +466,20 @@ public class Select implements Builder {
 				string += addCommas(orderBy);
 			}
 			
-			if (limit != null)
-				string += "LIMIT " + limit[0] + ", " + limit[1];
+			if (limit != null) {
+                string += "LIMIT " + limit[0] + ", " + limit[1];
+            }
 			
-			if (procedure != "")
-				string += "PROCEDURE " + procedure;
+			if (!"".equals(procedure)) {
+                string += "PROCEDURE " + procedure;
+            }
 			
 			switch (into) {
 				case OUT:
 					string += "INTO OUTFILE '" + file + "' ";
-					if (charset != "")
-						string += "CHARACTER SET " + charset + " ";
+					if (!"".equals(charset)) {
+                string += "CHARACTER SET " + charset + " ";
+            }
 					string += options;
 					break;
 				
@@ -475,8 +500,9 @@ public class Select implements Builder {
 	}
 	
 	public ResultSet execute() throws SQLException {
-		if (columns.isEmpty())
-			throw new BuilderException("Must specify at least one column in a SELECT statement.");
+		if (columns.isEmpty()) {
+            throw new BuilderException("Must specify at least one column in a SELECT statement.");
+        }
 		
 		return db.query(this);
 	}
@@ -492,9 +518,11 @@ public class Select implements Builder {
 	
 	private boolean checkConditional(String conditional) {
 		validString(conditional, "Skipping null or empty WHERE conditional.");
-		for (String c : conditionals)
-			if (conditional.equals(c))
-				return true;
+		for (String c : conditionals) {
+            if (conditional.equals(c)) {
+                return true;
+            }
+        }
 	    db.writeError("Skipping unknown conditional " + conditional + ".", false);
 	    return false;
 	}

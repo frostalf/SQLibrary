@@ -20,11 +20,11 @@ public enum Parameter {
 	private static Map<DBMS, Integer> count;
 	
 	static {
-		count = new EnumMap<DBMS, Integer>(DBMS.class);
+		count = new EnumMap<>(DBMS.class);
 	}
 	
 	private Parameter(DBMS... type) {
-		types = new HashSet<DBMS>();
+		types = new HashSet<>();
 		for (int i = 0; i < type.length; i++) {
 			types.add(type[i]);
 			updateCount(type[i]);
@@ -32,20 +32,24 @@ public enum Parameter {
 	}
 	
 	public boolean validParam(DBMS check) {
-		if (types.contains(DBMS.Other))
-			return true;
-		if (types.contains(check))
-			return true;
+		if (types.contains(DBMS.Other)) {
+            return true;
+        }
+		if (types.contains(check)) {
+            return true;
+        }
 		return false;
 
 	}
 	
 	private static void updateCount(DBMS type) {
 		Integer nb = count.get(type);
-		if (nb == null)
-			nb = 1;
-		else
-			nb++;
+		if (nb == null) {
+            nb = 1;
+        }
+		else {
+            nb++;
+        }
 		count.put(type, nb);
 	}
 	
